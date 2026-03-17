@@ -1,0 +1,129 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: userId (Auth UID)
+    // Fields:
+    //   - uid: string (required) - Firebase Auth UID
+    //   - name: string (required) - Display name
+    //   - email: string (required) - User email
+    //   - role: string (required) - 'student' or 'admin'
+    //   - streak: int - Daily check-in streak
+    //   - totalRecognitions: int - Total recognitions received
+    //   - createdAt: timestamp
+    //
+    // Collection: checkins
+    // Fields:
+    //   - userId: string (required)
+    //   - mood: string (required)
+    //   - reason: string (required)
+    //   - aiFeedback: string
+    //   - createdAt: timestamp
+    //
+    // Collection: reflections
+    // Fields:
+    //   - userId: string (required)
+    //   - category: string (required)
+    //   - content: string (required)
+    //   - aiFeedback: string
+    //   - createdAt: timestamp
+    //
+    // Collection: recognitions
+    // Fields:
+    //   - senderId: string (required)
+    //   - senderName: string (required)
+    //   - receiverId: string (required)
+    //   - receiverName: string (required)
+    //   - category: string (required)
+    //   - message: string (required)
+    //   - isAnonymous: bool
+    //   - createdAt: timestamp
+    //
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+         (request.auth.token.email == "reagan.onsongo@mpesafoundationacademy.ac.ke" && request.auth.token.email_verified == true));
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'name', 'email', 'role']) &&
+             data.uid is string && data.uid.size() > 0 &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.email is string && data.email.size() > 0 &&
+             data.role in ['student', 'admin'] &&
+             (!('persona' in data) || data.persona is string) &&
+             (!('goals' in data) || data.goals is map);
+    }
+
+    function isValidCheckIn(data) {
+      return data.keys().hasAll(['userId', 'mood', 'reason']) &&
+             data.userId == request.auth.uid &&
+             data.mood is string && data.mood.size() > 0 &&
+             data.reason is string && data.reason.size() > 0 && data.reason.size() < 2000;
+    }
+
+    function isValidReflection(data) {
+      return data.keys().hasAll(['userId', 'category', 'content']) &&
+             data.userId == request.auth.uid &&
+             data.category in ['academic', 'spiritual', 'mental', 'emotional', 'personal'] &&
+             data.content is string && data.content.size() > 0 && data.content.size() < 5000;
+    }
+
+    function isValidRecognition(data) {
+      return data.keys().hasAll(['senderId', 'receiverId', 'category', 'message']) &&
+             data.senderId == request.auth.uid &&
+             data.category in ['Teamwork', 'Empathy', 'Leadership', 'Resilience', 'Kindness', 'Academic Help'] &&
+             data.message is string && data.message.size() > 0 && data.message.size() < 1000;
+    }
+
+    // Rules
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isOwner(userId) && isValidUser(request.resource.data) && request.resource.data.role == 'student';
+      allow update: if (isOwner(userId) && isValidUser(request.resource.data) && request.resource.data.role == resource.data.role) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /checkins/{checkInId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && isValidCheckIn(request.resource.data);
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /reflections/{reflectionId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && isValidReflection(request.resource.data);
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /recognitions/{recognitionId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && isValidRecognition(request.resource.data);
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Default deny
+    match /{path=**} {
+      allow read, write: if false;
+    }
+  }
+}

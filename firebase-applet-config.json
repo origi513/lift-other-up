@@ -1,0 +1,10 @@
+{
+  "projectId": "disaster-management-alert-web",
+  "appId": "1:627134315154:web:3a612c3f3448d03780c44b",
+  "apiKey": "AIzaSyB0Z1XhkhrufmlWcYzWKZJPUnab-epUhYs",
+  "authDomain": "disaster-management-alert-web.firebaseapp.com",
+  "firestoreDatabaseId": "ai-studio-b251330b-7e08-4fb1-8a66-8e6f4ff4a729",
+  "storageBucket": "disaster-management-alert-web.firebasestorage.app",
+  "messagingSenderId": "627134315154",
+  "measurementId": ""
+}

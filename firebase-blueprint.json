@@ -1,0 +1,88 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information and stats.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "description": "Display name" },
+        "email": { "type": "string", "description": "User email" },
+        "role": { "type": "string", "enum": ["student", "admin"], "description": "User role" },
+        "streak": { "type": "integer", "description": "Daily check-in streak" },
+        "totalRecognitions": { "type": "integer", "description": "Total recognitions received" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "persona": { "type": "string", "description": "Selected character persona" },
+        "goals": {
+          "type": "object",
+          "properties": {
+            "study": { "type": "boolean" },
+            "exercise": { "type": "boolean" },
+            "sleep": { "type": "boolean" }
+          }
+        }
+      },
+      "required": ["uid", "name", "email", "role"]
+    },
+    "CheckIn": {
+      "title": "CheckIn",
+      "description": "Daily mood check-in.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user" },
+        "mood": { "type": "string", "description": "Mood emoji or label" },
+        "reason": { "type": "string", "description": "Reason for the mood" },
+        "aiFeedback": { "type": "string", "description": "Supportive feedback from Gemini" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "mood", "reason"]
+    },
+    "Reflection": {
+      "title": "Reflection",
+      "description": "Weekly reflection in specific categories.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user" },
+        "category": { "type": "string", "enum": ["academic", "spiritual", "mental", "emotional", "personal"] },
+        "content": { "type": "string", "description": "Reflection text" },
+        "aiFeedback": { "type": "string", "description": "Encouraging feedback from Gemini" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "category", "content"]
+    },
+    "Recognition": {
+      "title": "Recognition",
+      "description": "Peer recognition post.",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string", "description": "UID of the sender" },
+        "senderName": { "type": "string", "description": "Name of the sender (or 'Anonymous')" },
+        "receiverId": { "type": "string", "description": "UID of the receiver" },
+        "receiverName": { "type": "string", "description": "Name of the receiver" },
+        "category": { "type": "string", "enum": ["Teamwork", "Empathy", "Leadership", "Resilience", "Kindness", "Academic Help"] },
+        "message": { "type": "string", "description": "Recognition message" },
+        "isAnonymous": { "type": "boolean", "description": "Whether the sender is anonymous" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "receiverId", "category", "message"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "checkins/{checkInId}": {
+      "schema": "CheckIn",
+      "description": "Daily mood entries"
+    },
+    "reflections/{reflectionId}": {
+      "schema": "Reflection",
+      "description": "Weekly reflection entries"
+    },
+    "recognitions/{recognitionId}": {
+      "schema": "Recognition",
+      "description": "Peer recognition feed"
+    }
+  }
+}
