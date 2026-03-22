@@ -1,13 +1,308 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifting Others Up</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="screen hidden">
+            <div class="loading-container">
+                <div class="loading-text">Lifting Others Up...</div>
+            </div>
+        </div>
 
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen hidden">
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="login-icon">❤️</div>
+                    <h1 id="login-title">Welcome Back</h1>
+                    <p id="login-subtitle">Sign in to continue your reflection journey.</p>
+                    
+                    <button id="google-auth-btn" class="google-btn">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                        Login with Google
+                    </button>
+                    
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+                    
+                    <div class="email-login">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="email-input" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="password-input" placeholder="••••••••">
+                        </div>
+                        <button id="sign-in-btn" class="btn-peach w-full">Sign In</button>
+                    </div>
+                    
+                    <p class="login-footer">
+                        Don't have an account? <a href="#" id="signup-toggle" class="text-link">Sign up!</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App -->
+        <div id="main-app" class="screen hidden">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <div class="logo">❤️</div>
+                    <h1>Lifting Others Up</h1>
+                </div>
+                <button id="logout-btn" class="logout-btn">🚪</button>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Dashboard View -->
+                <div id="dashboard-view" class="view">
+                    <div class="card large">
+                        <div class="dashboard-header">
+                            <div>
+                                <h2 id="greeting-user">Hi User! 👋</h2>
+                                <p>Welcome to your central hub.</p>
+                            </div>
+                            <div class="persona-emoji" id="persona-emoji">👤</div>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">📈</div>
+                                <div>
+                                    <div class="stat-label">STREAK</div>
+                                    <div class="stat-value" id="streak-value">0</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">⭐</div>
+                                <div>
+                                    <div class="stat-label">KUDOS</div>
+                                    <div class="stat-value" id="kudos-value">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Goal Setting -->
+                    <div class="card">
+                        <h3>Goal Setting Board</h3>
+                        <div class="goal-buttons">
+                            <button class="goal-btn" data-goal="study">📚 Study</button>
+                            <button class="goal-btn" data-goal="exercise">🏃 Exercise</button>
+                            <button class="goal-btn" data-goal="sleep">😴 Sleep</button>
+                        </div>
+                    </div>
+
+                    <!-- Persona Selection -->
+                    <div id="persona-section" class="card hidden">
+                        <h3>Choose Your Persona</h3>
+                        <div class="persona-grid">
+                            <button class="persona-btn" data-persona="owl">🦉 Wise Owl</button>
+                            <button class="persona-btn" data-persona="lion">🦁 Brave Lion</button>
+                            <button class="persona-btn" data-persona="dolphin">🐬 Kind Dolphin</button>
+                            <button class="persona-btn" data-persona="fox">🦊 Clever Fox</button>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="action-btn" data-view="checkin">
+                            <div class="action-icon">😊</div>
+                            <div class="action-text">
+                                <h3>Daily Check-in</h3>
+                                <p>Log your mood and get AI support</p>
+                            </div>
+                        </button>
+                        <button class="action-btn" data-view="reflection">
+                            <div class="action-icon">📖</div>
+                            <div class="action-text">
+                                <h3>Weekly Reflection</h3>
+                                <p>Reflect on your growth this week</p>
+                            </div>
+                        </button>
+                        <button class="action-btn" data-view="recognition">
+                            <div class="action-icon">🏆</div>
+                            <div class="action-text">
+                                <h3>Peer Recognition</h3>
+                                <p>Lift someone else up today</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Daily Check-in View -->
+                <div id="checkin-view" class="view hidden">
+                    <button class="back-btn" data-back="dashboard">← Back</button>
+                    <div class="card">
+                        <h2>Daily Check-in</h2>
+                        
+                        <div id="checkin-mood" class="checkin-section">
+                            <h3>How are you feeling?</h3>
+                            <div class="mood-grid">
+                                <button class="mood-btn" data-mood="✨">✨ Excited</button>
+                                <button class="mood-btn" data-mood="😌">😌 Happy</button>
+                                <button class="mood-btn" data-mood="🤔">🤔 Neutral</button>
+                                <button class="mood-btn" data-mood="😩">😩 Tired</button>
+                                <button class="mood-btn" data-mood="😓">😓 Stressed</button>
+                                <button class="mood-btn" data-mood="😔">😔 Sad</button>
+                                <button class="mood-btn" data-mood="😰">😰 Anxious</button>
+                                <button class="mood-btn" data-mood="🙏">🙏 Grateful</button>
+                            </div>
+                        </div>
+
+                        <div id="checkin-reason" class="checkin-section hidden">
+                            <h3>Why do you feel this way?</h3>
+                            <textarea id="reason-input" placeholder="Tell me what's on your mind..." class="textarea-input"></textarea>
+                            <button id="submit-checkin-btn" class="btn-peach w-full">Get Feedback</button>
+                        </div>
+
+                        <div id="checkin-feedback" class="checkin-section hidden">
+                            <h3>AI Feedback</h3>
+                            <div class="feedback-box" id="feedback-content"></div>
+                            <button class="btn-peach w-full" data-back="dashboard">Done</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weekly Reflection View -->
+                <div id="reflection-view" class="view hidden">
+                    <button class="back-btn" data-back="dashboard">← Back</button>
+                    <div class="card">
+                        <h2>Weekly Reflection</h2>
+                        
+                        <div class="form-group">
+                            <label>Category</label>
+                            <div class="category-buttons">
+                                <button class="category-btn" data-category="academic">Academic</button>
+                                <button class="category-btn" data-category="spiritual">Spiritual</button>
+                                <button class="category-btn" data-category="mental">Mental</button>
+                                <button class="category-btn" data-category="emotional">Emotional</button>
+                                <button class="category-btn" data-category="personal">Personal</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Your Reflection</label>
+                            <textarea id="reflection-input" placeholder="What did you learn this week?" class="textarea-input"></textarea>
+                        </div>
+                        
+                        <button id="submit-reflection-btn" class="btn-peach w-full">Submit Reflection</button>
+                        
+                        <div id="reflection-feedback" class="hidden" style="margin-top: 20px;">
+                            <h3>AI Response</h3>
+                            <div class="feedback-box" id="reflection-feedback-content"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Peer Recognition View -->
+                <div id="recognition-view" class="view hidden">
+                    <button class="back-btn" data-back="dashboard">← Back</button>
+                    <div class="card">
+                        <h2>Lift Someone Up</h2>
+                        
+                        <div id="recognition-form" class="hidden">
+                            <div class="form-group">
+                                <label>Who are you recognizing?</label>
+                                <input type="text" id="receiver-name" placeholder="Friend's name..." class="form-input">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Category</label>
+                                <div class="category-buttons">
+                                    <button class="category-btn" data-category="Teamwork">Teamwork</button>
+                                    <button class="category-btn" data-category="Empathy">Empathy</button>
+                                    <button class="category-btn" data-category="Leadership">Leadership</button>
+                                    <button class="category-btn" data-category="Resilience">Resilience</button>
+                                    <button class="category-btn" data-category="Kindness">Kindness</button>
+                                    <button class="category-btn" data-category="Academic Help">Academic Help</button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Your Message</label>
+                                <textarea id="recognition-message" placeholder="What did they do that was awesome?" class="textarea-input"></textarea>
+                            </div>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="anonymous-checkbox">
+                                <span>Post anonymously</span>
+                            </label>
+                            
+                            <button id="send-recognition-btn" class="btn-peach w-full">Send Recognition</button>
+                        </div>
+
+                        <div id="recognition-success" class="success-message hidden">
+                            <div class="success-icon">⭐</div>
+                            <h3>Recognition Sent!</h3>
+                            <p>You just made someone's day a little brighter. ✨</p>
+                            <button class="btn-peach w-full" data-back="dashboard">Done</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recognition Feed View -->
+                <div id="feed-view" class="view hidden">
+                    <div class="feed-header">
+                        <h2>Community Feed</h2>
+                        <span class="feed-label">LATEST KUDOS</span>
+                    </div>
+                    
+                    <div id="feed-posts" class="feed-container">
+                        <div class="loading">Loading feed...</div>
+                    </div>
+                </div>
+
+                <!-- Progress Summary View -->
+                <div id="progress-view" class="view hidden">
+                    <button class="back-btn" data-back="dashboard">← Back</button>
+                    <div class="card">
+                        <h2>Your Progress</h2>
+                        <div id="progress-content">
+                            <p>Your statistics and growth metrics will appear here.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav">
+                <button class="nav-btn active" data-view="dashboard">
+                    <span class="nav-icon">😊</span>
+                    <span class="nav-label">Home</span>
+                </button>
+                <button class="nav-btn" data-view="feed">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Feed</span>
+                </button>
+                <button class="nav-btn" data-view="progress">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-label">Stats</span>
+                </button>
+                <button class="nav-btn" data-view="recognition">
+                    <span class="nav-icon">➕</span>
+                    <span class="nav-label">Give</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js"></script>
+    
+    <!-- Main App Script -->
+    <script src="script.js"></script>
+</body>
+</html>

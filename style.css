@@ -1,0 +1,898 @@
+/* ===== CSS Variables ===== */
+:root {
+    --primary-blue: #3BAFDA;
+    --sky-blue: #3BAFDA;
+    --baby-blue: #E0F2FE;
+    --peach: #FFDAB9;
+    --peach-hover: #FFCBA4;
+    --radius-heavy: 24px;
+    --radius-medium: 12px;
+    --text-dark: #1A1A1A;
+    --text-light: #666;
+    --text-lighter: #999;
+    --border-light: #E5E7EB;
+    --bg-light: #F9FAFB;
+}
+
+/* ===== Global Styles ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--baby-blue);
+    color: var(--text-dark);
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+body {
+    overflow: hidden;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+/* ===== Screen Management ===== */
+.screen {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 1;
+}
+
+.screen.active {
+    display: flex;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ===== Loading Screen ===== */
+#loading-screen {
+    align-items: center;
+    justify-content: center;
+    background: var(--baby-blue);
+}
+
+.loading-container {
+    text-align: center;
+}
+
+.loading-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-blue);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+/* ===== Login Screen ===== */
+#login-screen {
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, rgba(59, 175, 218, 0.1), white);
+    padding: 20px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-card {
+    background: white;
+    border-radius: var(--radius-heavy);
+    padding: 40px 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.login-icon {
+    font-size: 48px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    display: inline-block;
+    width: 80px;
+    margin-left: calc(50% - 40px);
+}
+
+#login-title {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: var(--primary-blue);
+    text-align: center;
+}
+
+#login-subtitle {
+    text-align: center;
+    color: var(--text-lighter);
+    margin-bottom: 30px;
+}
+
+.google-btn {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+    background: white;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+}
+
+.google-btn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.google-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.divider {
+    position: relative;
+    margin: 20px 0;
+    text-align: center;
+    color: var(--text-lighter);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: var(--border-light);
+}
+
+.divider span {
+    background: white;
+    padding: 0 15px;
+    position: relative;
+}
+
+.email-login {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-footer {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-lighter);
+    margin-top: 30px;
+}
+
+.text-link {
+    color: var(--primary-blue);
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+}
+
+/* ===== Main App Layout ===== */
+#main-app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.app-header {
+    background: white;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-light);
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.app-header h1 {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary-blue);
+    margin: 0;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.logout-btn:hover {
+    background: var(--bg-light);
+}
+
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+    padding-bottom: 150px;
+}
+
+/* ===== Screens/Views ===== */
+.view {
+    display: none;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.view.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===== Cards ===== */
+.card {
+    background: white;
+    border-radius: var(--radius-heavy);
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+}
+
+.card.large {
+    background: linear-gradient(135deg, white, rgba(224, 242, 254, 0.3));
+}
+
+.card h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.card h3 {
+    font-size: 16px;
+    margin-bottom: 16px;
+    color: var(--text-dark);
+    font-weight: bold;
+}
+
+/* ===== Dashboard ===== */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.dashboard-header h2 {
+    font-size: 32px;
+    margin: 0;
+}
+
+.dashboard-header p {
+    color: var(--text-lighter);
+    margin: 5px 0 0 0;
+}
+
+.persona-emoji {
+    font-size: 64px;
+    background: white;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 16px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--border-light);
+}
+
+.stat-icon {
+    font-size: 24px;
+}
+
+.stat-label {
+    font-size: 10px;
+    color: var(--text-lighter);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+/* ===== Button Styles ===== */
+button {
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-peach {
+    background-color: var(--peach);
+    color: var(--text-dark);
+    border-radius: 12px;
+    font-weight: bold;
+    padding: 16px 24px;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-peach:hover {
+    background-color: var(--peach-hover);
+    transform: translateY(-2px);
+}
+
+.btn-peach:active {
+    transform: translateY(0);
+}
+
+.btn-peach.w-full {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+}
+
+.btn-peach:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.goal-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.goal-btn {
+    padding: 16px;
+    border: 2px solid var(--border-light);
+    border-radius: 20px;
+    background: white;
+    color: var(--text-lighter);
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.goal-btn.active {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: white;
+}
+
+.goal-btn:hover {
+    border-color: var(--primary-blue);
+}
+
+.persona-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.persona-btn {
+    flex-direction: column;
+    padding: 20px 12px;
+    border-radius: 20px;
+    background: white;
+    border: 2px solid transparent;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.persona-btn:hover {
+    background: var(--baby-blue);
+    border-color: var(--primary-blue);
+}
+
+.persona-emoji-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.persona-label {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-lighter);
+}
+
+/* ===== Action Buttons ===== */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.action-btn {
+    background: white;
+    border-radius: var(--radius-heavy);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    text-align: left;
+    transition: all 0.2s;
+    border: 1px solid var(--border-light);
+}
+
+.action-btn:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.action-icon {
+    font-size: 48px;
+    flex-shrink: 0;
+}
+
+.action-text h3 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+}
+
+.action-text p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-lighter);
+}
+
+/* ===== Back Button ===== */
+.back-btn {
+    background: none;
+    border: none;
+    color: var(--text-lighter);
+    font-weight: bold;
+    margin-bottom: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    font-size: 14px;
+}
+
+.back-btn:hover {
+    color: var(--text-dark);
+}
+
+/* ===== Forms ===== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-input,
+.textarea-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    transition: border 0.2s;
+    box-sizing: border-box;
+}
+
+.form-input:focus,
+.textarea-input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+.textarea-input {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.checkbox-label input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary-blue);
+}
+
+.checkbox-label span {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* ===== Category/Mood Buttons ===== */
+.category-buttons,
+.mood-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.category-btn,
+.mood-btn {
+    padding: 12px 16px;
+    border-radius: 20px;
+    border: none;
+    background: var(--bg-light);
+    color: var(--text-lighter);
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.category-btn.active,
+.mood-btn.active {
+    background: var(--primary-blue);
+    color: white;
+}
+
+.category-btn:hover,
+.mood-btn:hover {
+    background: var(--baby-blue);
+    color: var(--primary-blue);
+}
+
+.category-btn.active:hover,
+.mood-btn.active:hover {
+    background: var(--primary-blue);
+    color: white;
+}
+
+/* ===== Check-in Flow ===== */
+.checkin-section {
+    display: none;
+}
+
+.checkin-section.active {
+    display: block;
+}
+
+.checkin-section h3 {
+    margin-bottom: 16px;
+    font-size: 18px;
+}
+
+.mood-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+@media (max-width: 600px) {
+    .mood-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feedback-box {
+    background: var(--baby-blue);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 16px 0;
+    font-style: italic;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* ===== Feed ===== */
+.feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.feed-label {
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--text-lighter);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.feed-post {
+    background: white;
+    border-radius: var(--radius-heavy);
+    padding: 16px;
+    border-left: 4px solid var(--primary-blue);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.feed-post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.feed-post-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.feed-avatar {
+    width: 32px;
+    height: 32px;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.feed-user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.feed-user-name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.feed-category {
+    font-size: 10px;
+    color: var(--text-lighter);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.feed-date {
+    font-size: 10px;
+    color: var(--text-lighter);
+    font-weight: bold;
+}
+
+.feed-message {
+    color: var(--text-light);
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-lighter);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-lighter);
+}
+
+/* ===== Success Message ===== */
+.success-message {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.success-icon {
+    font-size: 64px;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.success-message h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.success-message p {
+    color: var(--text-lighter);
+    margin-bottom: 24px;
+}
+
+/* ===== Bottom Navigation ===== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    padding: 8px 0;
+    height: 70px;
+}
+
+.nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-lighter);
+    transition: color 0.2s;
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+.nav-btn.active {
+    color: var(--primary-blue);
+}
+
+.nav-icon {
+    font-size: 24px;
+}
+
+.nav-label {
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 20px;
+        padding-bottom: 120px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .app-header {
+        padding: 16px 20px;
+    }
+
+    .persona-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .goal-buttons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .persona-emoji {
+        font-size: 48px;
+        align-self: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 16px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .login-card {
+        padding: 20px;
+    }
+
+    .persona-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .goal-buttons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .action-btn {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .app-header h1 {
+        font-size: 16px;
+    }
+}
